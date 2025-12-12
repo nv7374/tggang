@@ -120,5 +120,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   desttination: {x: 0, y: 0, z: 0}
   isThrow: 0
-  speed: 10
+  speed: 50
   dir: {x: 0, y: 0, z: 0}
