@@ -17,6 +17,7 @@ namespace B7
         public GameObject ObjBullet;
         // 총알이 생성될 위치
         public Transform BulletPoint;
+        
 
         public float hp = 1.0f;
 
@@ -71,6 +72,19 @@ namespace B7
             else if (other.CompareTag("Player"))
             {
                 hp -= 1f;
+            }
+            if (other.CompareTag("Item"))
+            {
+                switch (other.GetComponent<Item>().status)
+                {
+                    case ItemStatus.hp:
+                        break;
+                    case ItemStatus.upgrade:
+                        break;
+                    case ItemStatus.bomb:
+                        break;
+                }
+                Destroy(other.gameObject);
             }
         }
     }

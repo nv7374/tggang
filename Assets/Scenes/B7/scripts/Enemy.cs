@@ -6,6 +6,7 @@ namespace B7
 {
     public class Enemy : MonoBehaviour
     {
+        private GameManager gameManager;
         public float speed;
         public float ThrowPower = 50.0f;
         private GameObject Player;
@@ -16,8 +17,16 @@ namespace B7
         public float hp = 1.0f;
         public float maxHp = 1.0f;
 
+        public GameObject[] item;
+
         void Start()
         {
+            GameObject  gameManagerObject = GameObject.FindGameObjectWithTag("GameManager");
+            if (gameManagerObject != null)
+            {
+                gameManager = gameManagerObject.GetComponent<GameManager>();
+            }
+            if (gameManager )
             Player = GameObject.FindGameObjectWithTag("Player");
 
             if (Player == null)
@@ -57,6 +66,14 @@ namespace B7
                 hp -= 1f;
                 if (hp < 1.0f)
                 {
+                    int itemNum = gameManager.CreateItem();
+                    if (!other.CompareTag("Player") && itemNum != -1)
+                    {
+                        Instantiate(item[itemNum],
+                            this.transform.position, item[itemNum].transform.rotation);
+                    }
+                    gameManager.listEnemys.Remove(this.gameObject);
+
                     Destroy(gameObject);
                 }
                 Destroy(other.gameObject);

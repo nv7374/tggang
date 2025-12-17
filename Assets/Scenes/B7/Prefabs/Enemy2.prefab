@@ -74,7 +74,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 5
-  ThrowPower: 50
+  ThrowPower: 5
   hp: 1
   maxHp: 1
 --- !u!1 &4386196129123846637
