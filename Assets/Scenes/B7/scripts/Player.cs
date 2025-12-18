@@ -21,8 +21,11 @@ namespace B7
 
         public float hp = 1.0f;
 
+        GameManager gameManager;
+
         void Start()
         {
+            // GameObject gameManagerObject = GameObject.FindGameObjectWithTag("GameManager")
             thisRigi = this.GetComponent<Rigidbody>();
         }
         private void Move()
@@ -57,13 +60,37 @@ namespace B7
                 GameObject bullet = Instantiate(ObjBullet, BulletPoint.position, this.transform.rotation);
                 bullet.GetComponent<Bullet>().SetBullet(BulletPoint.position + Vector3.forward);
             }
+            if £¨Input.GetButtonDown("Fire2") && (GameDataManager.Instance.bombTime <= GameDataManager.Instance.bombing))
+            {
+                if (GameDataManager.Instance.Bomb == 0)
+                {
+                    GameDataManager.Instance.isBomb = true;
+                }
+                else
+                {
+                    GameDataManager.Instance.bomb--;
+                    GameDataManager.Instance.bombing = 0;
+                    for (int i = 0; i < GameManager.IistEnemys.Count; i++)
+                    {
+                        if (gameManager.listEnemys[i].GetComponent<Enemy>() != null)
+                        {
+                            gameManager.listEnemys[i].GetComponent<Enemy>().hp -= 1;
+                            if (gameManager.listEnemys[i].GetComponent<Enemy>().hp < 0)
+                            {
+                                Destroy(gameManager.listEnemys[i].gameObject);
+                            }
+                        }
+                    }
+                }
+            }
         }
         void OnTriggerEnter(Collider other)
         {
             if (other.CompareTag("Bullet"))
             {
-                hp -= 1f;
-                if (hp < 1.0f)
+
+                GameDataManager.Instance.hp -= 1f;
+                if (GameDataManager.Instance.hp < 1.0f)
                 {
                     Destroy(gameObject);
                 }
@@ -71,17 +98,27 @@ namespace B7
             }
             else if (other.CompareTag("Player"))
             {
-                hp -= 1f;
+                GameDataManager.Instance.hp -= 1f;
             }
             if (other.CompareTag("Item"))
             {
                 switch (other.GetComponent<Item>().status)
                 {
                     case ItemStatus.hp:
+                        if(GameDataManager.Instance.hp < GameDataManager.Instance.maxHp)
+                        {
+                            GameDataManager.Instance.hp += 1f;
+                        }
                         break;
                     case ItemStatus.upgrade:
+                        if(GameDataManager.Instance.upgrade <
+                            GameDataManager.Instance.maxUpgrade)
+                        {
+                            GameDataManager.Instance.upgrade++;
+                        }
                         break;
                     case ItemStatus.bomb:
+                        
                         break;
                 }
                 Destroy(other.gameObject);
